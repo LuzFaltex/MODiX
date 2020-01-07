@@ -1,18 +1,16 @@
-﻿using Discord;
+﻿using System.Linq;
+using Discord;
 
 namespace Modix.Bot.Extensions
 {
     internal static class GuildChannelExtensions
     {
-        private const ulong StaffRoleId = 606205846854303755;
+        private static readonly ulong[] PrivateChannels = { 606205846854303755 };
         public static bool IsPublic(this IGuildChannel channel)
         {
-            if (channel?.Guild is IGuild guild)
+            if (channel is { })
             {
-                var role = guild.GetRole(StaffRoleId);
-                var permissions = channel.GetPermissionOverwrite(role);
-
-                return permissions.HasValue && permissions.Value.ViewChannel == PermValue.Allow;
+                return PrivateChannels.Any(x => x.Equals(channel.Id));
             }
 
             return false;
