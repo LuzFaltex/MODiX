@@ -223,14 +223,14 @@ namespace Modix.Modules
             builder.AppendLine();
             builder.AppendLine($"**\u276F Infractions [See here]({url})**");
 
-            if (!(Context.Channel as IGuildChannel).IsPublic())
+            if ((Context.Channel as IGuildChannel)?.IsPublic() is true)
             {
-                var counts = await _moderationService.GetInfractionCountsForUserAsync(userId);
-                builder.AppendLine(FormatUtilities.FormatInfractionCounts(counts));
+                builder.AppendLine("Infractions cannot be listed in public channels.");
             }
             else
             {
-                builder.AppendLine("Infractions cannot be listed in public channels.");
+                var counts = await _moderationService.GetInfractionCountsForUserAsync(userId);
+                builder.AppendLine(FormatUtilities.FormatInfractionCounts(counts));
             }
         }
 
