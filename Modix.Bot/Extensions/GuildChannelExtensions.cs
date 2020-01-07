@@ -12,7 +12,7 @@ namespace Modix.Bot.Extensions
                 var role = guild.GetRole(StaffRoleId);
                 var permissions = channel.GetPermissionOverwrite(role);
 
-                return !permissions.HasValue || permissions.Value.ViewChannel == PermValue.Allow;
+                return permissions.HasValue && permissions.Value.ViewChannel == PermValue.Allow;
             }
 
             return false;
